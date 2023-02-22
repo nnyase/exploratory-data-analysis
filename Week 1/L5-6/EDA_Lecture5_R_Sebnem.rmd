@@ -1,0 +1,95 @@
+---
+title: "EDA Lecture 5 R Examples"
+author: "Sebnem Er"
+date: '`r format(Sys.Date(), "%d-%B-%Y")`'
+output:
+  pdf_document:
+    highlight: pygments
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\pagebreak
+
+# Libraries
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+library(reshape2)
+```
+
+# Checking your data - Checklist
+
+```{r}
+boston <- read.csv("C:/Users/01438475/Google Drive/UCTcourses/DataScience/LectureNotes/EDA/boston.csv")
+str(boston)
+glimpse(boston)
+head(boston, 3)
+tail(boston, 3)
+```
+
+
+\pagebreak
+
+```{r}
+p1 = boston %>%
+  ggplot(aes(x=crim, y = crim)) +
+  geom_boxplot()
+
+p2 = boston %>%
+  ggplot(aes(x=crim, y = zn)) +
+  geom_boxplot()
+
+p3 = boston %>%
+  ggplot(aes(x=crim, y = indus)) +
+  geom_boxplot()
+
+p4 = boston %>%
+  ggplot(aes(x=crim, y = chas)) +
+  geom_boxplot()
+
+cowplot::plot_grid(p1, p2, p3, p4, labels = "AUTO", ncol = 2, nrow = 2, label_size = 10, label_x = 0)
+```
+
+```{r}
+cormat = boston %>% cor() %>% round(3)
+cormat
+cormat_longform <- melt(cormat)
+head(cormat_longform)
+```
+
+```{r}
+cormat_longform %>% 
+  ggplot(aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile()
+```
+
+```{r}
+cormat_longform %>% 
+  ggplot(aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile(color = "white")
+```
+
+```{r}
+cormat_longform %>% 
+  ggplot(aes(Var2, Var1, fill = value))+
+ geom_tile(color = "white")+
+ scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name="Pearson\nCorrelation") +
+  theme_minimal()+ 
+ theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+    size = 12, hjust = 1))+
+ coord_fixed()
+```

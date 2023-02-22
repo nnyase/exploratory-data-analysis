@@ -1,0 +1,128 @@
+---
+title: "Marks with dplyr"
+author: "Sebnem Er"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load tidyverse ecosystem
+
+```{r}
+library(tidyverse)
+```
+
+## Create data frame 1
+
+```{r}
+names = c("A", "B", "C", "D", "E", "F")
+rcomputing = c(45, 40, 90, 94, 80, 65)
+eda = c(63, 66, 75, 83, 80, 59)
+sl = c(59, 56, 91, 92, 86, 67)
+marks1 = data.frame(names, rcomputing, eda, sl)
+marks1
+```
+
+
+## select
+
+```{r}
+subset = marks1 %>%
+  select(-1) %>%
+
+subset
+```
+
+## filter
+
+```{r}
+subset = marks1 %>%
+  filter(rcomputing > 50 & eda > 60)
+
+subset
+```
+
+## arrange
+
+```{r}
+subset = marks1 %>%
+  arrange(eda)
+subset
+```
+
+
+```{r}
+marks1 = marks1 %>%
+  rename(supervisedl = sl)
+marks1
+```
+
+
+## mutate
+
+```{r}
+marks1 = marks1 %>%
+  mutate(st.eda = (eda - mean(eda)) / sd(eda))
+marks1
+```
+
+```{r}
+marks1 = marks1 %>%
+  mutate(pass.rcomp = ifelse(rcomputing < 50, "fail", "pass"))
+
+marks1
+```
+
+```{r}
+means = marks1 %>%
+  group_by(pass.rcomp) %>%
+  summarise(mean(supervisedl))
+
+means
+```
+
+```{r}
+count = marks1 %>%
+  count(pass.rcomp)
+
+count
+```
+
+```{r}
+distinctcat = marks1 %>%
+  distinct(pass.rcomp)
+
+distinctcat
+```
+
+## Create data frame 2
+
+```{r}
+name = c("A", "B", "C", "E", "F", "G", "H")
+rcomputing = c(45, 40, 90, 80, 65, 50, 51)
+dsi = c(63, 66, 75, 80, 59, 65, 0)
+marks2 = data.frame(name, rcomputing, dsi)
+marks2
+```
+
+## inner_join
+
+```{r}
+marks1 = marks1 %>%
+  rename(name = names)
+
+inner_join(marks1, marks2, by = c("name", "rcomputing"))
+
+```
+
+## left_join
+
+```{r}
+newdata = full_join(marks1, marks2, by = c("name", "rcomputing"))
+
+newdata
+```

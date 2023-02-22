@@ -1,0 +1,230 @@
+# EDA Lecture 1-2 R Examples
+
+## Example 2 - Gapminder
+
+```{r}
+#install.packages("gapminder")
+library(gapminder)
+gapminder
+```
+
+\pagebreak
+
+## Frequency Distribution
+```{r}
+library(ggplot2)
+table(gapminder$continent)
+```
+
+
+## Bar Plot
+
+```{r}
+library(ggplot2)
+plot1 <- ggplot(gapminder, aes(x=continent)) + geom_bar()
+plot1
+```
+
+## Pie Chart
+
+```{r}
+plot1 + coord_polar()
+```
+
+If you would like to have a regular pie chart, then you need to provide the frequency distribution.
+
+## Histogram
+### A Simple Histogram
+
+```{r}
+library(ggplot2)
+plot2 <- ggplot(gapminder,
+                aes(x = gdpPercap))
+plot2 + geom_histogram(binwidth = 1000)
+```
+
+\pagebreak
+
+### Histogram With a Title
+
+```{r}
+plot2 + 
+  geom_histogram(binwidth = 1000) +
+  labs(title = "Histogram of GDP per Capita for All Years")
+```
+
+
+\pagebreak
+
+### Histogram with Different Color Schemes:
+
+```{r}
+plot2 + 
+  geom_histogram(binwidth = 1000, color="black", fill="white") +
+  labs(title = "Histogram of GDP per Capita for All Years")
+```
+
+
+
+\pagebreak
+
+### Histogram of Log Transformed Variable:
+
+```{r}
+plot3 <- ggplot(gapminder,
+                aes(x = log10(gdpPercap)))
+plot3 + 
+  geom_histogram(binwidth = .2, color="black", fill="white") +
+  labs(title = "Histogram of  Log Transformed GDP per Capita for All Years")
+```
+
+### Determine the Binwidth
+
+How do we determine the binwidth?
+\begin{itemize}
+\item Sturges' rule uses class intervals of length \\
+$L = \frac{x_{max}-x_{min}}{1+1.44*ln(n)}$ \\
+\item Genstat rule uses uses class intervals of length: \\
+$L = \frac{x_{max}-x_{min}}{\sqrt{n}}$ \\
+\item or a general rule
+\end{itemize}
+
+So we can create our own function for the binwidth:
+
+```{r}
+width_bin = function(x) (max(x)-min(x)) / sqrt(length(x))
+manualbin = width_bin(log10(gapminder$gdpPercap))
+```
+
+\pagebreak
+```{r}
+plot3 + 
+  geom_histogram(binwidth = manualbin, color="black", fill="white") 
+```
+
+\pagebreak
+
+or simply
+
+```{r}
+plot3 + 
+  geom_histogram(binwidth = function(x) (max(x)-min(x)) / sqrt(length(x)), color="black", fill="white") +
+    labs(title = "Histogram of  Log Transformed GDP per Capita for All Years (Genstat Binwidth)")
+
+```
+
+But you will notice that Gdp per capita variable includes all years, all continents, all countries!!!
+
+\pagebreak
+
+### Histogram for a Subset of Data
+
+Log Transformed GDP per Capita for 2007:
+
+```{r}
+plot4 <- ggplot(subset(gapminder, year == 2007),
+                aes(x = log10(gdpPercap)))
+plot4 + 
+   geom_histogram(binwidth = function(x) (max(x)-min(x)) / sqrt(length(x)), color="black", fill="white") +
+  labs(title = "Histogram of  Log Transformed GDP per Capita for 2007 (Genstat Binwidth)")
+```
+
+
+\pagebreak
+
+### Histogram with Overall Mean Line 
+
+Log Transformed GDP per Capita for 2007 with the Overall Mean Line
+ 
+```{r}
+# Histogram with mean of log10(gdpPercap) on the plot
+plot4 + 
+  geom_histogram(binwidth = function(x) (max(x)-min(x)) / sqrt(length(x)), color="black", fill="white") +
+  geom_vline(aes(xintercept=mean(log10(gdpPercap))),
+            color="blue", linetype="dashed", size=1) +
+  labs(title = "Histogram of  Log Transformed GDP per Capita for 2007 (Genstat Binwidth)")
+
+```
+
+\pagebreak
+
+### Histogram with Density plot
+
+```{r}
+# Histogram with density plot
+ggplot(subset(gapminder, year == 2007),
+                aes(x = log10(gdpPercap))) +  
+  geom_histogram(aes(y=..density..), binwidth = function(x) (max(x)-min(x)) / sqrt(length(x)),colour="black", fill="white")+
+  geom_density(alpha=0, fill="#FF6666") #alpha for transparency, if alpha = 0, no fill
+```
+
+\pagebreak
+
+### Histogram with Facets
+
+How about looking at the differences among different continents?
+
+```{r}
+# Histogram with mean of log10(gdpPercap) on the plot
+plot4 + 
+  geom_histogram(binwidth = function(x) (max(x)-min(x)) / sqrt(length(x)), color="black", fill="white") +
+  geom_vline(aes(xintercept=mean(log10(gdpPercap))),
+            color="blue", linetype="dashed", size=1) +
+  facet_grid(continent ~ .)
+```
+
+\pagebreak
+
+## Boxplots
+
+```{r}
+# Histogram with mean of log10(gdpPercap) on the plot
+plot5 <- ggplot(subset(gapminder, year == 2007),
+                aes(x = year, y = log10(gdpPercap))) 
+# if x axis variable is numeric, then one single boxplot
+# if x axis variable is categorical, then works like facets
+
+plot5 + 
+  geom_boxplot() #+ coord_flip()
+```
+
+Try with ``continent" variable.
+
+## Scatter Plots
+
+### A Simple Scatter Plot
+
+```{r}
+plot6 <- ggplot(subset(gapminder, year == 2007),
+                aes(x = lifeExp, y = log10(gdpPercap)))
+plot6 +
+  geom_point()
+```
+
+### Scatter Plot with Labellings
+
+```{r}
+plot6 +
+  geom_point(aes(colour = factor(continent)))
+```
+
+### Scatter Plot with Linear Lines for Different Groups
+
+```{r}
+plot6 +
+  geom_point(aes(colour = factor(continent))) +
+  geom_smooth(aes(group = continent, colour = factor(continent)), lwd = 1, se = FALSE, method = "lm")
+```
+
+```{r}
+plot7 <- ggplot(gapminder,
+                aes(x = lifeExp, y = log10(gdpPercap)))
+plot7 +
+  geom_point(aes(colour = factor(continent))) +
+  facet_wrap(~ year) # scales = "free_x"
+```
+
+
+
+
+For more check ``ggplot2: Elegant Graphics for Data Analysis (Use R!)" by (Hadley Wickham)

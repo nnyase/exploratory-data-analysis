@@ -1,0 +1,853 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={NYCflights13 Exercises},
+  pdfauthor={Sebnem Er},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{NYCflights13 Exercises}
+\author{Sebnem Er}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{nycflights13-dataset}{%
+\subsection{NYCFlights13 Dataset}\label{nycflights13-dataset}}
+
+\hypertarget{flights}{%
+\subsubsection{flights}\label{flights}}
+
+Description
+
+On-time data for all flights that departed NYC (i.e.~JFK, LGA or EWR) in
+2013.
+
+Data frame with columns
+
+\begin{itemize}
+\tightlist
+\item
+  year, month, day Date of departure.
+\item
+  dep\_time, arr\_time Actual departure and arrival times (format HHMM
+  or HMM), local tz.
+\item
+  sched\_dep\_time, sched\_arr\_time Scheduled departure and arrival
+  times (format HHMM or HMM), local tz.
+\item
+  dep\_delay, arr\_delay Departure and arrival delays, in minutes.
+  Negative times represent early departures/arrivals.
+\item
+  carrier Two letter carrier abbreviation. See airlines to get name.
+\item
+  flight Flight number.
+\item
+  tailnum Plane tail number. See planes for additional metadata.
+\item
+  origin, dest Origin and destination. See airports for additional
+  metadat
+\item
+  air\_time Amount of time spent in the air, in minutes.
+\item
+  distance Distance between airports, in miles.
+\item
+  hour, minute Time of scheduled departure broken into hour and minutes.
+\item
+  time\_hour Scheduled date and hour of the flight as a POSIXct date.
+  Along with origin, can be used to join flights data to weather data.
+\end{itemize}
+
+\url{https://cran.r-project.org/web/packages/nycflights13/nycflights13.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(flights)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       year          month             day           dep_time    sched_dep_time
+##  Min.   :2013   Min.   : 1.000   Min.   : 1.00   Min.   :   1   Min.   : 106  
+##  1st Qu.:2013   1st Qu.: 4.000   1st Qu.: 8.00   1st Qu.: 907   1st Qu.: 906  
+##  Median :2013   Median : 7.000   Median :16.00   Median :1401   Median :1359  
+##  Mean   :2013   Mean   : 6.549   Mean   :15.71   Mean   :1349   Mean   :1344  
+##  3rd Qu.:2013   3rd Qu.:10.000   3rd Qu.:23.00   3rd Qu.:1744   3rd Qu.:1729  
+##  Max.   :2013   Max.   :12.000   Max.   :31.00   Max.   :2400   Max.   :2359  
+##                                                  NA's   :8255                 
+##    dep_delay          arr_time    sched_arr_time   arr_delay       
+##  Min.   : -43.00   Min.   :   1   Min.   :   1   Min.   : -86.000  
+##  1st Qu.:  -5.00   1st Qu.:1104   1st Qu.:1124   1st Qu.: -17.000  
+##  Median :  -2.00   Median :1535   Median :1556   Median :  -5.000  
+##  Mean   :  12.64   Mean   :1502   Mean   :1536   Mean   :   6.895  
+##  3rd Qu.:  11.00   3rd Qu.:1940   3rd Qu.:1945   3rd Qu.:  14.000  
+##  Max.   :1301.00   Max.   :2400   Max.   :2359   Max.   :1272.000  
+##  NA's   :8255      NA's   :8713                  NA's   :9430      
+##    carrier              flight       tailnum             origin         
+##  Length:336776      Min.   :   1   Length:336776      Length:336776     
+##  Class :character   1st Qu.: 553   Class :character   Class :character  
+##  Mode  :character   Median :1496   Mode  :character   Mode  :character  
+##                     Mean   :1972                                        
+##                     3rd Qu.:3465                                        
+##                     Max.   :8500                                        
+##                                                                         
+##      dest              air_time        distance         hour      
+##  Length:336776      Min.   : 20.0   Min.   :  17   Min.   : 1.00  
+##  Class :character   1st Qu.: 82.0   1st Qu.: 502   1st Qu.: 9.00  
+##  Mode  :character   Median :129.0   Median : 872   Median :13.00  
+##                     Mean   :150.7   Mean   :1040   Mean   :13.18  
+##                     3rd Qu.:192.0   3rd Qu.:1389   3rd Qu.:17.00  
+##                     Max.   :695.0   Max.   :4983   Max.   :23.00  
+##                     NA's   :9430                                  
+##      minute        time_hour                     
+##  Min.   : 0.00   Min.   :2013-01-01 05:00:00.00  
+##  1st Qu.: 8.00   1st Qu.:2013-04-04 13:00:00.00  
+##  Median :29.00   Median :2013-07-03 10:00:00.00  
+##  Mean   :26.23   Mean   :2013-07-03 05:22:54.64  
+##  3rd Qu.:44.00   3rd Qu.:2013-10-01 07:00:00.00  
+##  Max.   :59.00   Max.   :2013-12-31 23:00:00.00  
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(flights, }\AttributeTok{n=}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 19
+##     year month   day dep_time sched_de~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##    <int> <int> <int>    <int>      <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+##  1  2013     1     1      517        515       2     830     819      11 UA     
+##  2  2013     1     1      533        529       4     850     830      20 UA     
+##  3  2013     1     1      542        540       2     923     850      33 AA     
+##  4  2013     1     1      544        545      -1    1004    1022     -18 B6     
+##  5  2013     1     1      554        600      -6     812     837     -25 DL     
+##  6  2013     1     1      554        558      -4     740     728      12 UA     
+##  7  2013     1     1      555        600      -5     913     854      19 B6     
+##  8  2013     1     1      557        600      -3     709     723     -14 EV     
+##  9  2013     1     1      557        600      -3     838     846      -8 B6     
+## 10  2013     1     1      558        600      -2     753     745       8 AA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\hypertarget{exercises}{%
+\subsection{Exercises}\label{exercises}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Find all flights that
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Had an arrival delay of two or more hours
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{arr\_delay\_2hrs }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(arr\_delay }\SpecialCharTok{\textgreater{}} \DecValTok{120}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(arr\_delay\_2hrs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      811         630     101    1047     830     137 MQ     
+## 2  2013     1     1      848        1835     853    1001    1950     851 MQ     
+## 3  2013     1     1      957         733     144    1056     853     123 UA     
+## 4  2013     1     1     1114         900     134    1447    1222     145 UA     
+## 5  2013     1     1     1505        1310     115    1638    1431     127 EV     
+## 6  2013     1     1     1525        1340     105    1831    1626     125 B6     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Flew to Houston (IAH or HOU)
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houston\_dest }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(dest }\SpecialCharTok{==} \StringTok{\textquotesingle{}IAH\textquotesingle{}} \SpecialCharTok{|}\NormalTok{ dest }\SpecialCharTok{==} \StringTok{\textquotesingle{}HOU\textquotesingle{}}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(houston\_dest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      517         515       2     830     819      11 UA     
+## 2  2013     1     1      533         529       4     850     830      20 UA     
+## 3  2013     1     1      623         627      -4     933     932       1 UA     
+## 4  2013     1     1      728         732      -4    1041    1038       3 UA     
+## 5  2013     1     1      739         739       0    1104    1038      26 UA     
+## 6  2013     1     1      908         908       0    1228    1219       9 UA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(houston\_dest}\SpecialCharTok{$}\NormalTok{dest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "IAH" "HOU"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Were operated by United, American, or Delta
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{UAD\_airlines }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(carrier }\SpecialCharTok{==} \StringTok{\textquotesingle{}DL\textquotesingle{}} \SpecialCharTok{|}\NormalTok{ carrier }\SpecialCharTok{==} \StringTok{\textquotesingle{}UA\textquotesingle{}} \SpecialCharTok{|}\NormalTok{ carrier }\SpecialCharTok{==} \StringTok{\textquotesingle{}AA\textquotesingle{}}\NormalTok{ )}
+\FunctionTok{head}\NormalTok{(UAD\_airlines)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      517         515       2     830     819      11 UA     
+## 2  2013     1     1      533         529       4     850     830      20 UA     
+## 3  2013     1     1      542         540       2     923     850      33 AA     
+## 4  2013     1     1      554         600      -6     812     837     -25 DL     
+## 5  2013     1     1      554         558      -4     740     728      12 UA     
+## 6  2013     1     1      558         600      -2     753     745       8 AA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(UAD\_airlines}\SpecialCharTok{$}\NormalTok{carrier)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "UA" "AA" "DL"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Departed in summer (July, August, and September)
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{summer\_flights }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(month }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(summer\_flights)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     7     1        1        2029     212     236    2359     157 B6     
+## 2  2013     7     1        2        2359       3     344     344       0 B6     
+## 3  2013     7     1       29        2245     104     151       1     110 B6     
+## 4  2013     7     1       43        2130     193     322      14     188 B6     
+## 5  2013     7     1       44        2150     174     300     100     120 AA     
+## 6  2013     7     1       46        2051     235     304    2358     186 B6     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(summer\_flights}\SpecialCharTok{$}\NormalTok{month)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7 8 9
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Arrived more than two hours late, but didn't leave late
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{arr\_late\_dep\_ontime }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(arr\_delay }\SpecialCharTok{\textgreater{}} \DecValTok{120} \SpecialCharTok{\&}\NormalTok{ dep\_delay }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{ )}
+\NormalTok{arr\_late\_dep\_ontime}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 29 x 19
+##     year month   day dep_time sched_de~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##    <int> <int> <int>    <int>      <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+##  1  2013     1    27     1419       1420      -1    1754    1550     124 MQ     
+##  2  2013    10     7     1350       1350       0    1736    1526     130 EV     
+##  3  2013    10     7     1357       1359      -2    1858    1654     124 AA     
+##  4  2013    10    16      657        700      -3    1258    1056     122 B6     
+##  5  2013    11     1      658        700      -2    1329    1015     194 VX     
+##  6  2013     3    18     1844       1847      -3      39    2219     140 UA     
+##  7  2013     4    17     1635       1640      -5    2049    1845     124 MQ     
+##  8  2013     4    18      558        600      -2    1149     850     179 AA     
+##  9  2013     4    18      655        700      -5    1213     950     143 AA     
+## 10  2013     5    22     1827       1830      -3    2217    2010     127 MQ     
+## # ... with 19 more rows, 9 more variables: flight <int>, tailnum <chr>,
+## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
+## #   minute <dbl>, time_hour <dttm>, and abbreviated variable names
+## #   1: sched_dep_time, 2: dep_delay, 3: arr_time, 4: sched_arr_time,
+## #   5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Were delayed by at least an hour, but made up over 30 minutes in
+  flight
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_diff }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{diff =}\NormalTok{ (dep\_delay }\SpecialCharTok{{-}}\NormalTok{ arr\_delay))}
+\NormalTok{flights\_30diff }\OtherTok{\textless{}{-}}\NormalTok{ flights\_diff }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(dep\_delay }\SpecialCharTok{\textgreater{}} \DecValTok{60} \SpecialCharTok{\&}\NormalTok{ diff }\SpecialCharTok{\textgreater{}=} \DecValTok{30}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(flights\_30diff)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 20
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1     1716        1545      91    2140    2039      61 B6     
+## 2  2013     1     1     2205        1720     285      46    2040     246 AA     
+## 3  2013     1     1     2326        2130     116     131      18      73 B6     
+## 4  2013     1     3     1503        1221     162    1803    1555     128 UA     
+## 5  2013     1     3     1821        1530     171    2131    1910     141 AA     
+## 6  2013     1     3     1839        1700      99    2056    1950      66 AA     
+## # ... with 10 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, diff <dbl>, and abbreviated variable names
+## #   1: sched_dep_time, 2: dep_delay, 3: arr_time, 4: sched_arr_time,
+## #   5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Departed between midnight and 6am (inclusive)
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{morning\_flights }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(dep\_time }\SpecialCharTok{\%in\%} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from=}\DecValTok{0}\NormalTok{, }\AttributeTok{to=}\DecValTok{600}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(morning\_flights)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      517         515       2     830     819      11 UA     
+## 2  2013     1     1      533         529       4     850     830      20 UA     
+## 3  2013     1     1      542         540       2     923     850      33 AA     
+## 4  2013     1     1      544         545      -1    1004    1022     -18 B6     
+## 5  2013     1     1      554         600      -6     812     837     -25 DL     
+## 6  2013     1     1      554         558      -4     740     728      12 UA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Another useful dplyr filtering helper is between(). What does it do?
+  Can you use it to simplify the code needed to answer the previous
+  challenges?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{morning\_flights\_between }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\FunctionTok{between}\NormalTok{(dep\_time,}\DecValTok{0}\NormalTok{,}\DecValTok{600}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(morning\_flights\_between)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      517         515       2     830     819      11 UA     
+## 2  2013     1     1      533         529       4     850     830      20 UA     
+## 3  2013     1     1      542         540       2     923     850      33 AA     
+## 4  2013     1     1      544         545      -1    1004    1022     -18 B6     
+## 5  2013     1     1      554         600      -6     812     837     -25 DL     
+## 6  2013     1     1      554         558      -4     740     728      12 UA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  How many flights have a missing dep\_time? What other variables are
+  missing? What might these rows represent?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{missing\_dep\_time }\OtherTok{\textless{}{-}}\NormalTok{ flights[}\FunctionTok{is.na}\NormalTok{(flights}\SpecialCharTok{$}\NormalTok{dep\_time),]}
+\FunctionTok{nrow}\NormalTok{(missing\_dep\_time)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8255
+\end{verbatim}
+
+\hypertarget{other-missing-variables-include-dep_delay-arr_timearr_delay.}{%
+\paragraph{Other missing variables include dep\_delay,
+arr\_time,arr\_delay.}\label{other-missing-variables-include-dep_delay-arr_timearr_delay.}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Sort the flights dataframe according to day, month and year
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_sort\_date }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(day,month,year)}
+\FunctionTok{head}\NormalTok{(flights\_sort\_date)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      517         515       2     830     819      11 UA     
+## 2  2013     1     1      533         529       4     850     830      20 UA     
+## 3  2013     1     1      542         540       2     923     850      33 AA     
+## 4  2013     1     1      544         545      -1    1004    1022     -18 B6     
+## 5  2013     1     1      554         600      -6     812     837     -25 DL     
+## 6  2013     1     1      554         558      -4     740     728      12 UA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Sort the flights dataframe using the arrival time in a descending
+  order.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_sort\_arr\_time }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(arr\_time))}
+\FunctionTok{head}\NormalTok{(flights\_sort\_arr\_time)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1     2209        2155      14    2400    2337      23 B6     
+## 2  2013     1     5     2116        2130     -14    2400      18     -18 B6     
+## 3  2013     1    13     2243        2129      74    2400    2224      96 EV     
+## 4  2013     1    16     2138        2107      31    2400    2322      38 EV     
+## 5  2013     1    17     2256        2249       7    2400    2357       3 B6     
+## 6  2013     1    22     2212        2055      77    2400    2250      70 MQ     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  How could you use arrange() to sort all missing values to the start?
+  (Hint: use is.na()).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_na\_sort }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(arr\_time),arr\_time)}
+\FunctionTok{head}\NormalTok{(flights\_na\_sort)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1     2016        1930      46      NA    2220      NA EV     
+## 2  2013     1     1       NA        1630      NA      NA    1815      NA EV     
+## 3  2013     1     1       NA        1935      NA      NA    2240      NA AA     
+## 4  2013     1     1       NA        1500      NA      NA    1825      NA AA     
+## 5  2013     1     1       NA         600      NA      NA     901      NA B6     
+## 6  2013     1     2     2041        2045      -4      NA    2359      NA B6     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\tightlist
+\item
+  Sort flights to find the most delayed flights. Find the flights that
+  left earliest.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_delayed }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(arr\_delay)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(arr\_delay }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{)}
+\NormalTok{flights\_delayed}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 138,413 x 19
+##     year month   day dep_time sched_de~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##    <int> <int> <int>    <int>      <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+##  1  2013     1     9      641        900    1301    1242    1530    1272 HA     
+##  2  2013     6    15     1432       1935    1137    1607    2120    1127 MQ     
+##  3  2013     1    10     1121       1635    1126    1239    1810    1109 MQ     
+##  4  2013     9    20     1139       1845    1014    1457    2210    1007 AA     
+##  5  2013     7    22      845       1600    1005    1044    1815     989 MQ     
+##  6  2013     4    10     1100       1900     960    1342    2211     931 DL     
+##  7  2013     3    17     2321        810     911     135    1020     915 DL     
+##  8  2013     7    22     2257        759     898     121    1026     895 DL     
+##  9  2013    12     5      756       1700     896    1058    2020     878 AA     
+## 10  2013     5     3     1133       2055     878    1250    2215     875 MQ     
+## # ... with 138,403 more rows, 9 more variables: flight <int>, tailnum <chr>,
+## #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
+## #   minute <dbl>, time_hour <dttm>, and abbreviated variable names
+## #   1: sched_dep_time, 2: dep_delay, 3: arr_time, 4: sched_arr_time,
+## #   5: arr_delay
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_left\_early }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(arr\_delay) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(arr\_delay }\SpecialCharTok{\textless{}=} \DecValTok{0}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(flights\_left\_early)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 19
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     5     7     1715        1729     -14    1944    2110     -86 VX     
+## 2  2013     5    20      719         735     -16     951    1110     -79 VX     
+## 3  2013     5     2     1947        1949      -2    2209    2324     -75 UA     
+## 4  2013     5     6     1826        1830      -4    2045    2200     -75 AA     
+## 5  2013     5     4     1816        1820      -4    2017    2131     -74 AS     
+## 6  2013     5     2     1926        1929      -3    2157    2310     -73 UA     
+## # ... with 9 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, and abbreviated variable names 1: sched_dep_time,
+## #   2: dep_delay, 3: arr_time, 4: sched_arr_time, 5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  Sort flights to find the fastest (highest speed) flights.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{flights\_speed }\OtherTok{\textless{}{-}}\NormalTok{ flights }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{time\_taken =}\NormalTok{ (hour}\SpecialCharTok{*}\DecValTok{60}\NormalTok{)}\SpecialCharTok{+}\NormalTok{ minute) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{speed =}\NormalTok{ (distance}\SpecialCharTok{/}\NormalTok{time\_taken)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(speed))}
+\FunctionTok{head}\NormalTok{(flights\_speed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 21
+##    year month   day dep_time sched_dep~1 dep_d~2 arr_t~3 sched~4 arr_d~5 carrier
+##   <int> <int> <int>    <int>       <int>   <dbl>   <int>   <int>   <dbl> <chr>  
+## 1  2013     1     1      857         900      -3    1516    1530     -14 HA     
+## 2  2013     1     2      909         900       9    1525    1530      -5 HA     
+## 3  2013     1     3      914         900      14    1504    1530     -26 HA     
+## 4  2013     1     4      900         900       0    1516    1530     -14 HA     
+## 5  2013     1     5      858         900      -2    1519    1530     -11 HA     
+## 6  2013     1     6     1019         900      79    1558    1530      28 HA     
+## # ... with 11 more variables: flight <int>, tailnum <chr>, origin <chr>,
+## #   dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
+## #   time_hour <dttm>, time_taken <dbl>, speed <dbl>, and abbreviated variable
+## #   names 1: sched_dep_time, 2: dep_delay, 3: arr_time, 4: sched_arr_time,
+## #   5: arr_delay
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\item
+  Which flights travelled the farthest? Which travelled the shortest?
+\item
+  Select all columns in the flights dataframe between year and day
+  (inclusive).
+\item
+  Select all columns except those from year to day (inclusive).
+\item
+  Rename the tail\_num variable in flights dataframe with tailnum.
+\item
+  Using the pipeline operator do the following:
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Select all columns in the flights dataframe between year and day
+  (inclusive).
+\item
+  Select all columns that ends with delay and time.
+\item
+  Select the distance and air\_time variables.
+\item
+  Think about a way of creating a gain/loss travel time for each flight
+  and create this variable as ``gain''.
+\item
+  What is the speed of the flight.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{13}
+\item
+  Currently dep\_time and sched\_dep\_time are convenient to look at,
+  but hard to compute with because they're not really continuous
+  numbers. Convert them to a more convenient representation of number of
+  minutes since midnight.
+\item
+  Compare air\_time with arr\_time - dep\_time. What do you expect to
+  see? What do you see? What do you need to do to fix it?
+\item
+  Compare dep\_time, sched\_dep\_time, and dep\_delay. How would you
+  expect those three numbers to be related?
+\item
+  Find the 10 most delayed flights using a ranking function. How do you
+  want to handle ties? Carefully read the documentation for min\_rank().
+\item
+  What does 1:3 + 1:10 return? Why?
+\item
+  Group the flights with year, month and day and then summarise the
+  groupings with count, mean distance and mean arr\_delay. Filter to
+  remove noisy points and Honolulu airport. Filter the flights that took
+  place more than 20 times. Plot distance vs delay using ggplot.
+\item
+  Group flights by destination. Summarise to compute distance, average
+  delay, and number of flights.
+\item
+  Which plane (tailnum) has the worst on-time record?
+\item
+  What time of day should you fly if you want to avoid delays as much as
+  possible?
+\item
+  For each destination, compute the total minutes of delay. For each
+  flight, compute the proportion of the total delay for its destination.
+\item
+  Delays are typically temporally correlated: even once the problem that
+  caused the initial delay has been resolved, later flights are delayed
+  to allow earlier flights to leave. Using lag(), explore how the delay
+  of a flight is related to the delay of the immediately preceding
+  flight.
+\item
+  Look at each destination. Can you find flights that are suspiciously
+  fast? (i.e.~flights that represent a potential data entry error).
+  Compute the air time of a flight relative to the shortest flight to
+  that destination. Which flights were most delayed in the air?
+\item
+  Find all destinations that are flown by at least two carriers. Use
+  that information to rank the carriers.
+\item
+  For each plane, count the number of flights before the first delay of
+  greater than 1 hour.
+\end{enumerate}
+
+\end{document}

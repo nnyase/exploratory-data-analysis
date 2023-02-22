@@ -1,0 +1,78 @@
+---
+title: "EDA Lecture 6 R Examples"
+author: "Sebnem Er"
+date: '`r format(Sys.Date(), "%d-%B-%Y")`'
+output:
+  pdf_document:
+    highlight: pygments
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: '3'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\pagebreak
+
+# Checking your data - Checklist
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+```
+
+
+# AMES Dataset
+
+```{r}
+library(naniar)
+
+ames %>%
+  miss_var_summary()
+```
+
+```{r}
+vis_miss(ames)
+gg_miss_upset(ames)
+gg_miss_upset(ames, nsets=2, nintersects = 40) #nsets, nintersects are some useful options.
+
+```
+
+```{r}
+ames %>%
+  ggplot(aes(x=LotFrontage, y=SalePrice)) +
+  geom_miss_point()
+```
+
+```{r}
+freqPoolArea = ames %>% count(PoolArea)
+freqPoolArea
+
+ames %>%
+ggplot(aes(x=factor(PoolArea)))+
+  geom_bar(stat="count", fill="steelblue")+
+  theme_minimal()
+```
+
+
+```{r}
+ames %>%
+  ggplot(aes(x=LotFrontage, y=SalePrice)) +
+  geom_miss_point()+
+  facet_wrap(~PoolArea)
+```
+
+
+```{r}
+ames %>%
+  group_by(Street) %>%
+  miss_var_summary()
+gg_miss_fct(x = ames, fct = factor(ames$PoolArea))
+```
