@@ -1,0 +1,137 @@
+---
+title: "DS Masters Statistical Computing Assignment 2"
+author: "Your name HERE!"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+geometry: paperheight=12.5in,paperwidth=9.5in,margin=1in
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = F, message = F, include = T, warning=F)
+```
+
+
+
+## Question 1 [12]
+
+Should you play the 'Double trouble' or 'Triple threat' dice game? Both games cost R1 to play. To play Double trouble, you roll two six-sided dice at the same time. To play Triple threat, you roll three six-sided dice at the same time. You win whenever all of the dice display the same number e.g. (1,1) or (4,4) for Double trouble, or (2,2,2) or (3,3,3) for Triple threat. 
+
+There are two payment options for both of these games:
+
+  - R50 each time you win, or
+  - R10 x (product of numbers on die)  e.g. if you win in Double trouble by rolling two 4's, your payout is R10 x 4x4 = R160. If you win by rolling three 2's in Triple threat, your payment is R10 x 2x2x2 = R80.
+  
+a. Write functions to simulate each of these games ```nsim``` times, calculating the two payouts for each game for each time you simulate the game (i.e. you should end up with four payout vectors, two for each game, with lengths equal to ```nsim```). 
+Replicate simulations of these games, for a sequence of ```nsim``` values from 100 to 100 000, in increments of 100. Calculate the mean of the payout for each of these replications. 
+For example, when ```nsim``` = 1000 that means you play each game 1000 times and calculate the mean of the two payout options for each game, and end up with 1000 sets of mean payouts for each of the two payout options for each game. 
+Make a line plot that displays the mean of each payout option across the two games as a function of the number of times each game is played. Your plot should clearly indicate which line corresponds to which combination of game and payout option. Comment on what can be deduced about the two games and payout options.  \hfill [6]
+
+```{r dice sim, eval = T}
+
+```
+
+
+\vspace{20pt}
+
+Now suppose that the payout for Double trouble is a function: $$ p(x) = 50log(x)- x $$ where x is the number of throws of the dice. 
+
+b. Graph the function, for $x \, \epsilon \, [1;100]$ \hfill [1]
+
+```{r payout graph, eval = T}
+
+```
+
+c. Use ```optim``` to determine the optimal number of throws to maximise the payout. Start with x = 1 throws. \hfill [1]
+
+```{r optim payout, eval = T}
+
+```
+
+d. Write a function to use the Newton-Raphson method to find the optimum number of throws to maximise payout. Start with x = 1 throws. Your function should return the number of throws, optimal value and number of iterations taken to converge to the optimal solution. \hfill [4]
+
+*Hints: $\dfrac{d}{dx} 50log(x+1) - x = \dfrac{50}{x+1} - 1$ and $\dfrac{d}{dx} \frac{50}{x+1} - 1 = \frac{-50}{(x+1)^2}$
+
+```{r newton raphson payout, eval = T}
+
+```
+
+\vspace{20pt} 
+
+\newpage
+
+## Question 2 [13]
+
+Suppose that you are trying to minimize the following function: $$f(x,y) = x^2 + y^2 + xsin(y) + ysin(x)$$
+
+
+a. Graph this function over the domains $x \, \epsilon \, [-5;5]$ and $y \, \epsilon \, [-5,5]$ using the ```outer``` and ```contour``` functions and an increment of 0.1 between successive values of x and y \hfill [2]
+
+```{r function graph, eval = T}
+
+```
+
+b. Find the minimum of the function using ```optim``` with the Nelder-Mead method. Use (-4,-4) as the starting values for x and y.  \hfill [2]
+
+```{r optim grad, eval = T}
+
+```
+
+*Gradient descent* is a numerical optimization routine that is often used to obtain the parameters that minimize a multi-parameter function. The algorithm is an iterative one. If we define $$Param_i = (a^{(i)},b^{(i)})^T$$ as the value of a $2 \times 1$ vector that contains the estimated optimal values of x and y at iteration i,  the algorithm updates the parameter estimates using the vector $Param_i$ as well as the gradient of the function ```f(x,y)``` at $Param_i$ (i.e. $f'(Param_i)$) using the following update rule: $$Param_{i+1} = Param_i - \alpha f'(Param_i),$$ where $\alpha$ is some constant representing the learning rate.  
+
+c. Write an R function to calculate the gradients of ```f```, where $\dfrac{df}{dx} =  2x + siny + ycosx$ and $\dfrac{df}{dy} = 2y + xcosy + sinx$. Return the answers as a two-dimensional vector. Name the function ```grad```.   \hfill [2]
+
+```{r grad func, eval = T}
+
+```
+
+d.  Now, write your own gradient descent algorithm. Name the function ```grad_desc```. Set $\alpha=0.1$.  Your function should contain the following arguments, ```params```, ```max_iters```, ```tol``` and ```alpha```, where ```max_iters``` is the maximum allowable number of iterations used to obtain the optimal parameter vector estimates. Include a stopping criterion that terminates the algorithm once both gradients are within ```tol``` =  0.0001 of 0. Set the maximum number of iterations as 1000. Use (-4,-4) as the starting parameter values. 
+Print out the optimal parameter values, the value of the function at these parameter values, the gradients, and the number of iterations taken for the algorithm to converge. If the algorithm does not converge within ```max_iters```, terminate the algorithm and print a message that indicates that the algorithm did not converge within ```max_iters``` iterations. \hfill [4]
+
+```{r grad desc, eval = T}
+
+```
+
+e. Using your gradient descent algorithm above, write a program to investigate the effect of using different learning rates, ranging from $\alpha = 0.005$ to $\alpha = 0.495$ in increments of 0.001. Use the same values for all the other parameters of the algorithm as above. Record the number of iterations taken to reach convergence for each value of $\alpha$. Plot a line graph of the number of iterations to reach convergence as a function of the learning rate. Title the graph appropriately. \hfill [3]
+
+
+```{r learn rate, eval = T}
+
+```
+
+\vspace{20pt} 
+
+\newpage
+
+## Question 3 [10]
+
+The figure below is of the game 'tic tac toe' or 'noughts and crosses'. The game is played by two players, one who enters 'X's and another who enters '0's. The players take turns in choosing which of the nine blocks to enter their symbol, with the goal being to win the game by having three of their symbols in a row (either in a straight line or along a diagonal). If neither player manages to get three of their symbols in a row before all nine blocks have symbols, the game ends in a draw. 
+
+```{r tictactoe,fig.align='center', out.width = '200px'}
+include_graphics('tictactoe.png')
+```
+
+Write an R program in order to simulate the above game 10000 times.Your program should do the following:
+
+  - Randomly select which player starts first
+  - Randomly populate the blocks, one at a time, with each player's symbol 
+  - Stop the game as soon as one of the players has won, or when all blocks have been filled (i.e. the game has been drawn)
+  - Record which player has won or whether the game ended in a draw
+
+Print the proportion of times each of the three results of the game happens.
+
+*Hint: denote each of the blocks with a number, from 1 to 9, as in the diagram below:
+
+```{r tictactoe_num,fig.align='center', out.width = '200px'}
+include_graphics('tictactoe_num.png')
+```
+
+    
+```{r tic tac toe sim, echo = T, eval = T}
+
+```
+
+

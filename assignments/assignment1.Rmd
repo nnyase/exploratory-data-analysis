@@ -1,0 +1,171 @@
+---
+title: "DS Masters Exploratory Data Analysis Assignment 1"
+author: "Ndivhuwo Nyase!"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+geometry: paperheight=12.5in,paperwidth=9.5in,margin=1in
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ggplot2)
+library(dplyr)
+library(dbplyr)
+library(tidyverse)
+setwd('~/Desktop/MSc Data Science/exploratory-data-analysis/assignments/')
+options(scipen = 100)
+knitr::opts_chunk$set(echo = F, message = F, include = T, warning=F)
+```
+
+
+
+### Part 1
+## Question 1 Data Wrangling
+
+```{r , eval = T}
+
+
+temp = list.files(path=paste0(getwd(),"/Data/"),pattern = "*.csv",full.names = TRUE)
+myfiles = lapply(temp, read.csv)
+
+
+
+passColumn <- function(df){
+  df$Pass <- df$Grade
+  return(df)
+}
+
+grades2numeric <- function(df){
+  df$Grade <- as.numeric(df$Grade)
+  return(df)
+}
+
+rename2subject <- function(df){
+  df %>% 
+    rename(Subject = Catalog.Nbr)
+}
+
+renameStudentID2ID <- function(df){
+  if ('StudentID' %in% names(df)){
+    df <- df %>% 
+      rename(ID = StudentID) 
+  }
+  return(df)
+}
+
+confirmColumnTypesandNames <- function(df){
+  df$Term <- as.integer(df$Term)
+  df$Subject <- as.character(df$Subject)
+  df$Grade <- as.numeric(df$Grade)
+  df$ID <- as.integer(df$ID)
+  df$Pass <- as.character(df$Pass)
+  return(df)
+}
+
+fixUndergradDataset <- function(myfiles){
+  myfiles = lapply(myfiles,as.tibble)
+  myfiles <- lapply(myfiles,passColumn)
+  myfiles <- lapply(myfiles,grades2numeric)
+  myfiles <- lapply(myfiles, rename2subject)
+  myfiles<-lapply(myfiles,renameStudentID2ID)
+  myfiles <- lapply(myfiles,confirmColumnTypesandNames)
+}
+
+myfiles <- fixUndergradDataset(myfiles)
+```
+
+```{r merge}
+
+undergraduate <- myfiles %>% reduce(full_join)
+str(undergraduate)
+summary(undergraduate)
+```
+
+```{r}
+
+each_year <- c()
+for (year in unique(undergraduate$Term)){
+  # Reset Counter
+  counter <- 0
+  
+  # filter by specific year 
+  year <-undergraduate %>%
+    filter(Term == year)
+  
+  # filter by students who passed (Take note of supplementary students and Covid year)
+  pass_year <- year %>% 
+    filter(Grade >= 50 | Pass %in% c('PA','UP'))
+  # Subset by students who passed two or more subjects each year
+  pass_two_subjects <- pass_year %>% 
+    subset(ID %in% pass_year$ID[duplicated(pass_year$ID)])
+  
+  # Loop through all students who have passed two subjects
+  for (student in unique(pass_two_subjects$ID)){
+    
+    SUB<-c(pass_two_subjects[pass_two_subjects$ID==student,2])
+    # Check whether each student has passed 1st year and 2nd year subjects
+    if ("A1" %in% SUB$Subject & "B1" %in% SUB$Subject |
+        "A1" %in% SUB$Subject & "B2" %in% SUB$Subject |
+        'A2' %in% SUB$Subject & 'B1' %in% SUB$Subject |
+        'A2' %in% SUB$Subject & 'B2' %in% SUB$Subject ){
+      # Add all students to counter
+      counter <- counter + 1
+    }
+  }
+  # Append all students who passed both years.
+  each_year <- append(each_year,counter)
+}
+df<-data.frame(each_year,row.names = unique(undergraduate$Term))
+df <- df %>% mutate(nStudentsPassedBothYr = each_year)
+
+```
+
+```{r}
+# Create 
+pass_each_year <- c()
+fail_each_year <- c()
+for (year in unique(undergraduate$Term)){
+  # Reset Counter
+  pass_counter <- 0
+  fail_counter <- 0
+  
+  # filter by specific year 
+  year <-undergraduate %>%
+    filter(Term == year)
+
+  # Subset by students who passed two or more subjects each year
+  two_subjects <- year %>% 
+    subset(ID %in% year$ID[duplicated(year$ID)])
+  
+  # Loop through all students who have passed two subjects
+  for (student in unique(two_subjects$ID)){
+    
+    SUB<-two_subjects[two_subjects$ID==student,]
+    # Check whether each student has passed 1st year and 2nd year subjects
+    if ("A1" %in% SUB$Subject & "B1" %in% SUB$Subject |
+        "A1" %in% SUB$Subject & "B2" %in% SUB$Subject |
+        'A2' %in% SUB$Subject & 'B1' %in% SUB$Subject |
+        'A2' %in% SUB$Subject & 'B2' %in% SUB$Subject ){
+      
+        pass_two_subjects <- SUB %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
+        if (length(pass_two_subjects$Pass) >= 2){
+          pass_counter <- pass_counter + 1
+        } else {
+          fail_counter <- fail_counter +1
+        } 
+      }
+
+  }
+   # Append all students who passed both years.
+  pass_each_year <- append(pass_each_year,pass_counter)
+  fail_each_year <- append(fail_each_year,fail_counter)
+  }
+ 
+
+pass_each_year
+fail_each_year
+
+```

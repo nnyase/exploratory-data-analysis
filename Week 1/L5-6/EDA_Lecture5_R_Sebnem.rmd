@@ -32,7 +32,7 @@ library(reshape2)
 # Checking your data - Checklist
 
 ```{r}
-boston <- read.csv("C:/Users/01438475/Google Drive/UCTcourses/DataScience/LectureNotes/EDA/boston.csv")
+boston <- read.csv("~/Desktop/MSc Data Science/exploratory-data-analysis/datasets/L5-6/boston.csv")
 str(boston)
 glimpse(boston)
 head(boston, 3)
