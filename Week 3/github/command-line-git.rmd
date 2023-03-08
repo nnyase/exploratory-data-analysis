@@ -1,0 +1,128 @@
+---
+title: "Working with Git through the command line"
+author: ""
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_knit$set(root.dir = "")
+```
+
+The following is a kind of minimal set of instructions that will showcase some of the basic Git functionality. I don't go into much detail here -- the idea is that you work through the steps below and see what is going on at each step. First read the document *Version control with Git and GitHub* and make sure you've followed all the setup steps there.
+
+### Saving your work: git add, git commit
+1. Open the shell/terminal and cd to the directory you want to work in.
+2. `git init`. This sets up an (empty) git repository in the folder.
+3. `git status`. A useful command to see what files are being tracked.
+4. Make a text file with "this is the first line." in it, save to the working directory as *demotext.txt*.
+5. `git status`
+6. `git add demotext.txt`. Adds *demotext.txt* to the staging area.
+7. `git status`. Note status of *demotext.txt* has changed.
+8. `git commit -m "added first line"`. Commits with a message (-m). 
+9. `git status`
+10. `git log`. Shows the commit history.
+11. Now add a second line of text to *demotext.txt*: "this is the second line."
+12. `git status`
+13. `git diff demotext.txt`. See changes to *demotext.txt*.
+14. `git add demotext.txt`
+15. `git status`
+16. `git commit -m "added second line"`
+17. `git status`
+18. `git log`
+19. Now add a third line of text to *demotext.txt*: "this is the third line."
+
+### Going back in time: git checkout, git revert, git reset
+1. Say we don't want the third line, and want to return to the state at the last commit.
+2. `git checkout demotext.txt`. Returns *demotext.txt* to state at last commit. If you put a commit id after `git checkout` returns the file to state at that commit.
+3. Say we'd committed the change before we realised we didn't want it.
+4. Add back the third line of text to *demotext.txt*, save, and add and commit with the message "added third line".
+5. `git log —-oneline` to get the id of last commit (the one where you added the third line).
+6. `git revert <commit_id>`
+7. `git log`
+8. Open up *demotext.txt* to see the third line is gone.
+9. You can also ‘revert a revert’.
+10. `git log —-oneline` and find the last commit id (the revert).
+11. `git revert <commit_id>`
+12. Check *demotext.txt* to see the third line is back.
+13. You can also use git checkout for this.
+14. `git log —-oneline`, look for commit id for the "added second line"" commit.
+15. `git checkout <commit_id> demotext.txt`
+16. Check *demotext.txt* to see we're back to having just two lines.
+17. Suppose we realise we’ve made a bit of a mess and want to get rid of the last few commits and just return to the "added second line" commit.
+18. `git log —-oneline` and find commit you want to return to.
+19. `git reset —-hard <commit_id>`. This removes intermediate commits, so use with caution!
+
+### Trying something new: git branch, git checkout
+1. Say you want to try something new on *demotext.txt*. Can do this with branching, which creates a separate branch to work on, without affecting the master branch. Later on you can merge the branch back with the master or delete the branch without merging.
+2. `git checkout -b test-feature` (equivalent to `git branch test-feature` plus `git checkout test-feature`)
+3. Make some changes to *demotext.txt*. I added a line "some changes I'm not sure will work!".
+4. `git add demotext.txt`
+5. `git commit -m "testing feature 1"`
+6. Check *demotext.txt*, see that feature is there.
+7. `git checkout master`. Returns to the master. 
+8. Check *demotext.txt*, verify its back to the old version without the feature.
+9. Add a line "this is the third line"" to *demotext.txt*, add and commit. Remember we're still on the master branch, so this is an update to the master.
+10. `git checkout test-feature`. Back to the test branch.
+11. `git merge master`. Merge with the master branch.
+12. Git tries to merge automatically, but if you get a merge conflict you need to resolve it manually, then add and commit the resolved version.
+13. Open *demotext.txt* in a text editor, fix it up, then add and commit.
+14. Add a new line to *demotext.txt* "another test feature"", add and commit with message "testing feature 2".
+15. `git checkout master`. Returns to master branch.
+16. Check *demotext.txt*, see none of the test feature text appears.
+17. `git merge test-feature`. Pulls test features into the master by merging with the test branch.
+18. Check *demotext.txt* to see test features have been included.
+19. `git branch -v`. See the last commits on each branch.
+20. `git branch -d test-feature`. Delete the *test-feature* branch.
+
+### Going online: git push, git pull
+All of what we've done so far has involved local changes. Often you'll want to also save your commits online, in which case you need to "push" your commits to an online hosting platform for Git-based projects (like GitHub). If you want to share your work with others, or work collaboratively, you'll also need GitHub or an equivalent.
+
+1. Create a GitHub repository. Goto https://github.com, log in, find your way to "Repositories", and click the green "New" button.
+2. Give your repo a name and description. 
+3. Don't tick the box "Initialize this repository with a README"
+4. Click "Create repository"
+5. Click on the green "Clone or download" button and copy the URL in the box, which will be something like `https://github.com/iandurbach/myproject.git` (if you're using SSH, this is also where you can get the SSH key and passphrase).
+6. Back in the shell/terminal, cd to the directory you've been working in.
+7. `git remote add origin <URL>`. "origin" refers to the name of the remote, you can call it whatever you want.
+8. `git pull origin master`. Pulls any changes from the online repo to your local master. There won't be anything in the online repo yet so nothing will happen (unless you initialized the repo with a README, in which case that will be pulled).
+9. `git push origin master`. Pushes your commits to GitHub.
+10. Check the appropriate file(s) are on GitHub.
+
+If you ever want to remove a remote, use `git remote rm origin` (remember origin is just the name of the remote, your's might be different). If you want to point the remote to another URL use `git remote set-url origin <newURL>`.
+
+## Collaborating with others on GitHub
+
+This section assumes there is an existing GitHub repo that you would like to interact with, by using the code in the repo and/or by contributing code to the repo yourself. These steps will also work in *starting* a collaborative project -- you'll just start by forking an empty repo (belonging to the person you're collaborating with).  
+
+1. Fork the target repo to your own GitHub account. Do this by browsing to the target repo on GitHub and clicking the "Fork" button. This creates your own copy of the repo.
+2. You can now clone the repo to your local machine. From *your* GitHub account, get the repo's URL by clicking the "Clone or download" button as before.
+3. Start a new R project using version control as shown before (*File > New Project > Version Control > Git*). Enter the URL you copied in the previous step. You should see the contents of the target repo in your R project.
+4. You can now work on the project and commit and push any changes in exactly the same way described previously. If you're not interested in developments in the target repo, or in collaborating by contributing changes to the target repo, then you don't need the following steps. Often though, you will want to keep your forked repo up-to-date with the target repo (either to keep track of new developments or because you are working together in some way). In that case, read on.
+5. To keep a forked repo up-to-date with the target repo, you first need to configure a remote that points from your repo to the "upstream" target repo. First check the current remote repository for your fork by opening the terminal, browsing to the project directory and typing `git remote -v`. You should see the URL of your repo.
+6. Add the upstream target repo by typing `git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git`. Type `git remote -v` again to check that it has been added.
+7. You can now pull any updates from the target repo into your local repo (fork) with `git pull upstream master`.
+
+If you are going to be contributing changes to the target repo, you should now create a new branch and do your work there, rather than working directly in the master branch. When you are ready to push your changes upstream to the target repo, you do this by opening a pull request:
+
+1. Browse to the main page of the target repo.
+2. In the "Branch" menu, choose the branch that contains your commits.
+3. Click "New pull request".
+4. Choose the branch of the target repo you want to merge your changes with.
+5. Enter a title and description for your pull request.
+6. Click "Create pull request".
+
+The pull request is then sent to the owner of the target repo, who may accept the request, ask for additional changes, or reject the request. 
+
+### Sources and further resources
+
+1. http://happygitwithr.com/ 
+2. http://www-cs-students.stanford.edu/~blynn/gitmagic/
+3. https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting
+4. https://github.com/blog/2019-how-to-undo-almost-anything-with-git
+5. https://guides.github.com/activities/forking/
+6. https://help.github.com/articles/fork-a-repo/
+7. https://help.github.com/articles/configuring-a-remote-for-a-fork/
+8. https://help.github.com/articles/syncing-a-fork/
+9. https://www.youtube.com/watch?v=u-kAeG4jkMA

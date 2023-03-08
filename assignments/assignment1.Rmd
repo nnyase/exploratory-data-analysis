@@ -15,6 +15,8 @@ library(ggplot2)
 library(dplyr)
 library(dbplyr)
 library(tidyverse)
+library(scales)
+library(DT)
 setwd('~/Desktop/MSc Data Science/exploratory-data-analysis/assignments/')
 options(scipen = 100)
 knitr::opts_chunk$set(echo = F, message = F, include = T, warning=F)
@@ -25,7 +27,7 @@ knitr::opts_chunk$set(echo = F, message = F, include = T, warning=F)
 ### Part 1
 ## Question 1 Data Wrangling
 
-```{r , eval = T}
+```{r data wrangling, eval = T}
 
 
 temp = list.files(path=paste0(getwd(),"/Data/"),pattern = "*.csv",full.names = TRUE)
@@ -77,58 +79,35 @@ fixUndergradDataset <- function(myfiles){
 myfiles <- fixUndergradDataset(myfiles)
 ```
 
-```{r merge}
+```{r merge and summary}
 
 undergraduate <- myfiles %>% reduce(full_join)
 str(undergraduate)
 summary(undergraduate)
 ```
+Examining the dataset, I have noticed a few values that are in the grade column that were not specified on the assignment. Namely, 'DE', 'F', and 'LOA'. As part of EDA, it is my due diligence to inquire about these values in the grade column and ask specific questions such as are those values mistakes in data capturing, or if they represent meaningful information that was not given to me.
 
-```{r}
-
-each_year <- c()
-for (year in unique(undergraduate$Term)){
-  # Reset Counter
-  counter <- 0
-  
-  # filter by specific year 
-  year <-undergraduate %>%
-    filter(Term == year)
-  
-  # filter by students who passed (Take note of supplementary students and Covid year)
-  pass_year <- year %>% 
-    filter(Grade >= 50 | Pass %in% c('PA','UP'))
-  # Subset by students who passed two or more subjects each year
-  pass_two_subjects <- pass_year %>% 
-    subset(ID %in% pass_year$ID[duplicated(pass_year$ID)])
-  
-  # Loop through all students who have passed two subjects
-  for (student in unique(pass_two_subjects$ID)){
-    
-    SUB<-c(pass_two_subjects[pass_two_subjects$ID==student,2])
-    # Check whether each student has passed 1st year and 2nd year subjects
-    if ("A1" %in% SUB$Subject & "B1" %in% SUB$Subject |
-        "A1" %in% SUB$Subject & "B2" %in% SUB$Subject |
-        'A2' %in% SUB$Subject & 'B1' %in% SUB$Subject |
-        'A2' %in% SUB$Subject & 'B2' %in% SUB$Subject ){
-      # Add all students to counter
-      counter <- counter + 1
-    }
-  }
-  # Append all students who passed both years.
-  each_year <- append(each_year,counter)
-}
-df<-data.frame(each_year,row.names = unique(undergraduate$Term))
-df <- df %>% mutate(nStudentsPassedBothYr = each_year)
+With that being said, in the analysis of the dataset the following values 'DE','F','LOA' were treated as failing grades. The following code shows the existence of these variables and the amount they occur in the dataset.
+```{r grade column}
+unknown_values <- undergraduate %>% filter(Pass %in% c('DE','F','LOA'))
+table(unknown_values$Pass)
+datatable(unknown_values)
 
 ```
-
-```{r}
-# Create 
+#### Question 1
+What is the total number and percentage of students for each year who pass both the 1st and the 2nd year courses in the same year?
+```{r question 1}
+# Create empty vectors to store amount of students who
+# pass both 1yr and 2nd year courses in one year
+# OR fail one or more 1year and 2nd year courses in one year
 pass_each_year <- c()
 fail_each_year <- c()
+
+# Loop through each year in dataset
 for (year in unique(undergraduate$Term)){
-  # Reset Counter
+  # Store students who pass both 1st and 2nd year subjects
+  # Store students who fail one or more 1st and 2nd year subjects
+  # Reset Counter per year
   pass_counter <- 0
   fail_counter <- 0
   
@@ -136,36 +115,125 @@ for (year in unique(undergraduate$Term)){
   year <-undergraduate %>%
     filter(Term == year)
 
-  # Subset by students who passed two or more subjects each year
+  # filter by students who took two or more courses per year
   two_subjects <- year %>% 
     subset(ID %in% year$ID[duplicated(year$ID)])
   
-  # Loop through all students who have passed two subjects
+  # Loop through all students who have taken two or more courses per year
   for (student in unique(two_subjects$ID)){
     
+    # Subset dataset according to specific student
     SUB<-two_subjects[two_subjects$ID==student,]
-    # Check whether each student has passed 1st year and 2nd year subjects
+    
+    # Check whether each student has passed has taken 1st and 2nd year subject in one year
     if ("A1" %in% SUB$Subject & "B1" %in% SUB$Subject |
         "A1" %in% SUB$Subject & "B2" %in% SUB$Subject |
         'A2' %in% SUB$Subject & 'B1' %in% SUB$Subject |
         'A2' %in% SUB$Subject & 'B2' %in% SUB$Subject ){
       
+      # filter by students who passed two or more 1st and 2nd year subjects
         pass_two_subjects <- SUB %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
         if (length(pass_two_subjects$Pass) >= 2){
           pass_counter <- pass_counter + 1
-        } else {
+        } else { # else it means the student has failed atleast one 1st or 2nd year subject
           fail_counter <- fail_counter +1
         } 
       }
 
   }
-   # Append all students who passed both years.
+   # Append all students
   pass_each_year <- append(pass_each_year,pass_counter)
   fail_each_year <- append(fail_each_year,fail_counter)
   }
  
 
-pass_each_year
-fail_each_year
+df <- data.frame(matrix(c(pass_each_year,fail_each_year), nrow = length(unique(undergraduate$Term)), ncol = 2),row.names =unique(undergraduate$Term) )
 
+
+df <- df %>% rename(pass_both = X1,fail_both = X2) %>% mutate(total_students = pass_both+fail_both, pass_percent = percent(pass_both/total_students))
+df
+```
+#### Question 2
+Are there any outliers in the Grade variable? What is your definition of an outlier?
+```{r}
+
+summary(undergraduate$Grade)
+ggplot(undergraduate) +
+  aes(x = Grade) +
+  geom_histogram(binwidth = 5 ) +
+  facet_wrap(~Subject)
+
+  theme_minimal()
+
+ggplot(undergraduate) +
+  aes(x = "", y = Grade) +
+  geom_boxplot(fill = "#0c4c8a") +
+  theme_minimal()
+
+#stats(undergraduate$Grade)$out
+```
+#### Question 3
+Are there any obvious clusters in the Grade variable? i.e. more marks around 50%.
+```{r question 3}
+
+
+```
+
+#### Question 4
+What is the pass rate for the 1st and 2nd year courses for each year? Are there any differences between A1 and A2?
+```{r question 4}
+
+df <- data.frame(matrix(nrow=length(unique(undergraduate$Term)),ncol=5),
+                 row.names = as.character(unique(undergraduate$Term)))
+df <- df %>% rename(pass_rate_a1 = X1,pass_rate_a2=X2,diff_a1_a2= X3,pass_rate_A=X4,pass_rate_B=X5)
+
+for (year in unique(undergraduate$Term)){
+
+a1_pass <- undergraduate %>% filter(Subject == "A1" & Term == year) %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
+a1_all <- undergraduate %>% filter(Subject == "A1" & Term == year) 
+pass_rate_a1 <- length(a1_pass$ID)/length(a1_all$ID)
+
+a2_pass <- undergraduate %>% filter(Subject == "A2" & Term == year) %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
+a2_all <- undergraduate %>% filter(Subject == "A2" & Term == year) 
+pass_rate_a2 <- length(a2_pass$ID)/length(a2_all$ID)
+
+diff <- pass_rate_a1-pass_rate_a2
+
+b1_pass <- undergraduate %>% filter(Subject == "B1" & Term == year) %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
+b1_all <- undergraduate %>% filter(Subject == "B1" & Term == year) 
+pass_rate_A <- (length(a1_pass$ID)+length(a2_pass$ID))/(length(a1_all$ID)+length(a2_all$ID))
+
+b2_pass <- undergraduate %>% filter(Subject == "B2" & Term == year) %>% filter(Grade >= 50 | Pass %in% c('PA','UP'))
+b2_all <- undergraduate %>% filter(Subject == "B2" & Term == year) 
+pass_rate_B <- (length(b1_pass$ID)+length(b2_pass$ID))/(length(b1_all$ID)+length(b2_all$ID))
+rounded_pass_rates <- lapply(c(pass_rate_a1,pass_rate_a2,diff,pass_rate_A,pass_rate_B),round,digits=3)
+
+df[as.character(year),] <- rounded_pass_rates
+}
+datatable(df)
+```
+According to the data, students pass A2 at a higher rate than they pass A1. 
+
+
+#### Question 5
+How many students fail B1 even if they pass A1 or A2?
+
+```{r question 5}
+
+b1_fail <- undergraduate  %>%filter(Subject == 'B1') %>% filter(Grade < 50 | Pass %in% c('INC','DPR','AB','DE','F','LOA'))
+
+A1_A2_pass <- undergraduate %>% filter(Subject == 'A1' | Subject == 'A2') %>% filter(Grade >=50 | Pass %in% c('PA','UP')) 
+
+b1_fail_pass_a <- b1_fail %>% filter(ID %in% A1_A2_pass$ID)
+length(unique(b1_fail_pass_a$ID))
+```
+
+#### Question 6
+What would you suggest the minimum mark obtained should be from 1st year courses so that the student is able to pass B1?
+
+```{r question 6}
+
+b1_fail %>% filter(ID %in% A1_A2_pass$ID)
+
+datatable(b1_fail_pass_a)
 ```
