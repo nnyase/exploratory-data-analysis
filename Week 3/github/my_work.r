@@ -1,1 +1,2 @@
-read.csv('C:/Users/Stefan/OneDrive - University of Cape Town/Courses/STA5092Z - EDA/Lecture21_22_Git/Example/data/temperature.csv')
+data <-read.csv('data/temperature.csv')
+setwd("/Users/ndivhuwonyase/Desktop/MSc Data Science/exploratory-data-analysis/Week 3/github/")

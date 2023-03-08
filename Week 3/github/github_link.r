@@ -3,8 +3,8 @@ library(usethis)
 git_sitrep()
 
 use_git_config(
-  user.name = 'your user github username',
-  user.email = 'your github email')
+  user.name = 'nnyase',
+  user.email = 'n.nyase@gmail.com')
 
 create_github_token()
 
